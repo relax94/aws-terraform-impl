@@ -1,0 +1,25 @@
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  name: "external-dns"
+  annotations:
+    "eks.amazonaws.com/role-arn": ${role_arn}
+
+provider: aws
+domainFilters: [${domain_name}]
+aws:
+  region: ${region}
+  zoneType: ${zone_type}
+
+metrics:
+  enabled: true
+  serviceMonitor:
+    enabled: false
+    namespace: monitoring
+
+sources:
+  - service
+  - ingress
+#  - istio-virtualservice
